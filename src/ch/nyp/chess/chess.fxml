@@ -8,7 +8,7 @@
 
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.nyp.chess.ChessController">
 	<center>
-		<GridPane fx:id="gridPane" styleClass="chess-board" stylesheets="@application.css" BorderPane.alignment="CENTER">
+		<GridPane fx:id="gridPane" maxHeight="800.0" maxWidth="800.0" styleClass="chess-board" stylesheets="@application.css" BorderPane.alignment="CENTER">
 			<columnConstraints>
 				<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
 					<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

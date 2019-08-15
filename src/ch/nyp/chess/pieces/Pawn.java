@@ -21,6 +21,9 @@ public class Pawn extends ChessPiece {
     @Override
     public void onMove(Field from, Field to) {
         moved = true;
+        if(to.getY() == 1 || to.getY() == 8) {
+            to.setChessPiece(new Queen(isWhite()));
+        }
     }
 
     @Override
