@@ -12,7 +12,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class Field extends Label implements PropertyChangeListener {
+public class Field extends Label{
 	private int x, y;
 	private boolean highlighted;
 	private ChessPiece chessPiece;
@@ -23,7 +23,6 @@ public class Field extends Label implements PropertyChangeListener {
 
 		setHighlighted(false);
 
-	
 	}
 
 	public ChessPiece getChessPiece() {
@@ -40,12 +39,6 @@ public class Field extends Label implements PropertyChangeListener {
 
 	public boolean isHighlighted() {
 		return highlighted;
-	}
-
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		System.out.println(evt);
-
 	}
 
 	public void setChessPiece(ChessPiece chessPiece) {
