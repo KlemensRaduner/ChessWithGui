@@ -16,10 +16,7 @@ public class Bishop extends ChessPiece {
 
     @Override
     public boolean isValidMove(Field from, Field to) {
-        int dx = to.getX() - from.getX();
-        int dy = to.getY() - from.getY();
-
-        return (Math.abs(dy) == Math.abs(dx) && dx != 0) && emptyOrEnemy(to);
+        return from.isDiagonal(to) && !to.isPlayersPiece(isWhite());
     }
 
 }

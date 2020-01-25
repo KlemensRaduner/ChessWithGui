@@ -16,10 +16,7 @@ public class Rook extends ChessPiece {
 
     @Override
     public boolean isValidMove(Field from, Field to) {
-        int dx = to.getX() - from.getX();
-        int dy = to.getY() - from.getY();
-
-        return (dx == 0 && dy != 0 || dx != 0 && dy == 0) && emptyOrEnemy(to);
+        return from.isStraight( to) && !to.isPlayersPiece(isWhite());
     }
 
 }

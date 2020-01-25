@@ -19,7 +19,7 @@ public class King extends ChessPiece {
         int dx = to.getX() - from.getX();
         int dy = to.getY() - from.getY();
 
-        return (Math.abs(dx) <= 1 && Math.abs(dy) <= 1) && emptyOrEnemy(to);
+        return (Math.abs(dx) <= 1 && Math.abs(dy) <= 1) && !to.isPlayersPiece(isWhite());
     }
 
 }

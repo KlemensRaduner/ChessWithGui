@@ -1,6 +1,5 @@
 package ch.nyp.chess.pieces;
 
-import ch.nyp.chess.ChessGame;
 import ch.nyp.chess.ChessPiece;
 import ch.nyp.chess.Field;
 
@@ -43,7 +42,7 @@ public class Pawn extends ChessPiece {
         }
 
         // diagonal
-        if (to.getChessPiece() != null && !ChessGame.isPlayersPiece(isWhite(), to) && Math.abs(dx) == 1 && dy == y) {
+        if (to.getChessPiece() != null && !to.isPlayersPiece(isWhite()) && Math.abs(dx) == 1 && dy == y) {
             return true;
         }
 

@@ -1,16 +1,11 @@
 package ch.nyp.chess;
 
-public abstract class ChessPiece implements Movable {
+public abstract class ChessPiece {
 
     private boolean white;
     private boolean jump;
 
-    public void onMove(Field from, Field to) {
-    }
-
-    public boolean emptyOrEnemy(Field f) {
-        return f.getChessPiece() == null || f.getChessPiece().isWhite() != isWhite();
-    }
+    public void onMove(Field from, Field to) { }
 
     public boolean canJump() {
         return jump;
@@ -27,5 +22,8 @@ public abstract class ChessPiece implements Movable {
     public boolean isWhite() {
         return white;
     }
+
+    public boolean isValidMove(Field from, Field to){return false;}
+
 
 }

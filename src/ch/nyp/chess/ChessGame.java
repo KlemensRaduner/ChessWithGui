@@ -1,5 +1,7 @@
 package ch.nyp.chess;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +14,20 @@ import ch.nyp.chess.pieces.Rook;
 
 public class ChessGame {
 
+    // contains all 64 Fields
     private Field[][] board;
+
+    // true is wihte, false is black
     private boolean player;
+
+    // field selected by the player can be null
     private Field selectedField;
+
+    // list with all possible moves of piece on selectedField
     private List<Field> highlightedFields;
+
+    // Tells the GuiController when to update
+    private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     public ChessGame() {
         player = true;
@@ -24,9 +36,21 @@ public class ChessGame {
         placeChessPieces();
     }
 
+    /**
+     * Adds a PropertyChangeListener
+     * @param l
+     */
+    public void addPropertyChangeListener(PropertyChangeListener l) {
+        propertyChangeSupport.addPropertyChangeListener(l);
+    }
+
+    /**
+     * Handles clicks on Fields
+     * @param f
+     */
     public void handleLeftClick(Field f) {
         if (selectedField == null) {
-            if (isPlayersPiece(player, f)) {
+            if (f.isPlayersPiece(player)) {
                 selectField(f);
                 highlighAllPossbleField(f);
             }
@@ -36,15 +60,24 @@ public class ChessGame {
                 removeSelection();
                 removeHighlightedFields();
                 player = !player;
+                propertyChangeSupport.firePropertyChange("turn", !player, player);
             }
         }
     }
+
+    /**
+     * Select a Field to move with the next left click
+     * @param f
+     */
 
     public void selectField(Field f) {
         selectedField = f;
         f.setHighlighted(true);
     }
 
+    /**
+     * Rmemoves the selection if there is one
+     */
     public void removeSelection() {
         if (selectedField != null) {
             selectedField.setHighlighted(false);
@@ -52,24 +85,40 @@ public class ChessGame {
         }
     }
 
+    /**
+     * Handles right clicks
+     */
+
     public void handleRightCklick() {
         removeSelection();
         removeHighlightedFields();
     }
 
+    /**
+     * Removes all highlighted fields
+     */
     public void removeHighlightedFields() {
         for (Field f : highlightedFields) {
             f.setHighlighted(false);
         }
     }
 
+    /**
+     * Highlights all Fields the Piece on the current Field can move to
+     * @param field
+     */
     private void highlighAllPossbleField(Field field) {
-
         highlightedFields = getAllPossibleFields(field);
         for (Field f : highlightedFields) {
             f.setHighlighted(true);
         }
     }
+
+    /**
+     * Returns a List with all Fields the Piece on the current Field can move to
+     * @param field
+     * @return
+     */
 
     private List<Field> getAllPossibleFields(Field field) {
         List<Field> list = new ArrayList<Field>();
@@ -83,6 +132,12 @@ public class ChessGame {
         return list;
     }
 
+    /**
+     * Returns true if Piece can move from one Field to another, false otherwise
+     * @param from
+     * @param to
+     * @return
+     */
     private boolean canMove(Field from, Field to) {
         if (from.getChessPiece().isValidMove(from, to)) {
             if (checkPath(from, to)) {
@@ -92,6 +147,11 @@ public class ChessGame {
         return false;
     }
 
+    /**
+     * Moves a Piece to an new Field
+     * @param from
+     * @param to
+     */
     private void movePiece(Field from, Field to) {
         to.setChessPiece(from.getChessPiece());
         from.setChessPiece(null);
@@ -99,6 +159,12 @@ public class ChessGame {
 
     }
 
+    /**
+     * returns the x coordinate when moved one field towards the Field to
+     * @param currentX
+     * @param to
+     * @return
+     */
     private int moveCurrentX(int currentX, Field to) {
         if (currentX > to.getX()) {
             currentX -= 1;
@@ -108,6 +174,12 @@ public class ChessGame {
         return currentX;
     }
 
+    /**
+     * returns the Y coordinate when moved one field towards the Field to
+     * @param currentY
+     * @param to
+     * @return
+     */
     private int moveCurrentY(int currentY, Field to) {
         if (currentY > to.getY()) {
             currentY -= 1;
@@ -117,6 +189,12 @@ public class ChessGame {
         return currentY;
     }
 
+    /**
+     * returns true if the piece on the field from can move to the field to
+     * @param from
+     * @param to
+     * @return
+     */
     private boolean checkPath(Field from, Field to) {
         if (!from.getChessPiece().canJump()) {
             int currentX = from.getX();
@@ -138,10 +216,10 @@ public class ChessGame {
         return true;
     }
 
-    public static boolean isPlayersPiece(boolean player, Field f) {
-        return f.getChessPiece() != null && player == f.getChessPiece().isWhite();
-    }
 
+    /**
+     * initializes the board array
+     */
     private void initBoard() {
         board = new Field[9][9];
         for (int x = 1; x <= 8; x++) {
@@ -151,6 +229,9 @@ public class ChessGame {
         }
     }
 
+    /**
+     * places all piesecs in the starting spots
+     */
     private void placeChessPieces() {
         for (int i = 1; i <= 8; i++) {
             board[i][2].setChessPiece(new Pawn(false));
@@ -179,6 +260,11 @@ public class ChessGame {
 
     }
 
+
+    /**
+     * returns board array
+     * @return
+     */
     public Field[][] getBoard() {
         return board;
     }

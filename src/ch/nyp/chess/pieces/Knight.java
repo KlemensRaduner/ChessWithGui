@@ -20,7 +20,7 @@ public class Knight extends ChessPiece {
         int dx = to.getX() - from.getX();
         int dy = to.getY() - from.getY();
 
-        return (Math.abs(dx) == 2 && Math.abs(dy) == 1 || Math.abs(dx) == 1 && Math.abs(dy) == 2) && emptyOrEnemy(to);
+        return (Math.abs(dx) == 2 && Math.abs(dy) == 1 || Math.abs(dx) == 1 && Math.abs(dy) == 2) && !to.isPlayersPiece(isWhite());
     }
 
 }

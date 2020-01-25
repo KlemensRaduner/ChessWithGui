@@ -16,12 +16,7 @@ public class Queen extends ChessPiece {
 
     @Override
     public boolean isValidMove(Field from, Field to) {
-        int dx = to.getX() - from.getX();
-        int dy = to.getY() - from.getY();
-
-        boolean straight = (dx == 0 && dy != 0 || dx != 0 && dy == 0);
-        boolean diagonal = (Math.abs(dy) == Math.abs(dx) && dx != 0);
-        return (straight || diagonal) && emptyOrEnemy(to);
+        return (from.isDiagonal(to) || from.isStraight(to)) && !to.isPlayersPiece(isWhite());
     }
 
 }
